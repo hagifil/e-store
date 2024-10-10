@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Store - My Account</title>
+    <link rel="stylesheet" href="/static/info.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/">E-Store</a></h1> 
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Home</a></li>
+                <li><a href="/cart">Cart</a></li>
+                <li><a href="/info">Profile</a></li>
+                <li><a href="/add_item">Add Item</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="account-info">
+            <h2>Account Information</h2>
+            <div class="account-details">
+                <div>
+                    <p><strong>Name:</strong> {{ user.full_name }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>City:</strong> {{ user.city }}</p>
+                    <p><strong>Phone:</strong> {{ user.phone }}</p>
+                </div>
+                <form action="/logout" method="post">
+                    <button type="submit" class="remove-btn">Logout</button>
+                </form>
+            </div>
+            <form action="/delete_account" method="post">
+                <button type="submit" class="remove-btn">Delete Account</button>
+            </form>
+        </div>
+
+        <div class="your-listings">
+            <h2 style="margin-left: 37px;">Your Listings</h2>
+            {% if products %}
+                <ul class="product-grid">
+                    {% for product in products %}
+                        <li class="product">
+                            <div>
+                                <h3><a href="/product/{{ product.id }}" target="_blank">{{ product.name }}</a></h3>
+                                <p><strong>Price:</strong> ${{ product.price }}</p>
+
+                                <!-- Display current quantity -->
+                                <p><strong>Quantity:</strong> {{ product.quantity }}</p>
+
+                                <!-- Edit Quantity Form -->
+                                <form action="/product/update_quantity/{{ product.id }}" method="post">
+                                    <label for="new_quantity">Change Quantity:</label>
+                                    <input type="number" name="new_quantity" value="{{ product.quantity }}" min="1" required>
+                                    <button type="submit" class="edit-btn">Update Quantity</button>
+                                </form>
+                            </div>
+                            <form action="/product/remove/{{ product.id }}" method="post">
+                                <button type="submit" class="remove-btn">Remove Listing</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p style="margin-left: 37px;">You have no listings.</p>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 E-Store. All rights reserved.</p>
+    </footer>
+</body>
+</html>

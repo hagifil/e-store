@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Store - Home</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/">E-Store</h1>      
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Home</a></li>
+                <li><a href="/cart">Cart</a></li>
+                <li><a href="/info">Profile</a></li>
+                <li><a href="/add_item">Add Item</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="filter">
+            <form action="/" method="get">
+                <label for="search">Search by Name:</label>
+        <input type="text" id="search" name="search" placeholder="Type product name..." />
+        
+        <label for="min_price">Min Price:</label>
+        <input type="number" step="0.1" id="min_price" name="min_price" placeholder="0.0" />
+
+        <label for="max_price">Max Price:</label>
+        <input type="number" step="0.1" id="max_price" name="max_price" placeholder="0.0" />
+
+
+                <label for="city">Select City:</label>
+                <select name="city" id="city">
+                    <option value="">All Cities</option>
+                    <option value="Skopje">Skopje</option>
+                    <option value="Bitola">Bitola</option>
+                    <option value="Ohrid">Ohrid</option>
+                    <option value="Kumanovo">Kumanovo</option>
+                    <option value="Prilep">Prilep</option>
+                    <option value="Tetovo">Tetovo</option>
+                    <option value="Veles">Veles</option>
+                    <option value="Shtip">Shtip</option>
+                    <option value="Strumica">Strumica</option>
+                    <option value="Kavadarci">Kavadarci</option>
+                    <option value="Gostivar">Gostivar</option>
+                    <option value="Kochani">Kochani</option>
+                    <option value="Kichevo">Kichevo</option>
+                    <option value="Struga">Struga</option>
+                    <option value="Radovish">Radovish</option>
+                    <option value="Gevgelija">Gevgelija</option>
+                    <option value="Debar">Debar</option>
+                    <option value="Kriva Palanka">Kriva Palanka</option>
+                    <option value="Sveti Nikole">Sveti Nikole</option>
+                    <option value="Negotino">Negotino</option>
+                    <option value="Delchevo">Delchevo</option>
+                    <option value="Vinica">Vinica</option>
+                    <option value="Resen">Resen</option>
+                    <option value="Probishtip">Probishtip</option>
+                    <option value="Berovo">Berovo</option>
+                    <option value="Kratovo">Kratovo</option>
+                    <option value="Krushevo">Krushevo</option>
+                    <option value="Makedonski Brod">Makedonski Brod</option>
+                    <option value="Valandovo">Valandovo</option>
+                    <option value="Demir Hisar">Demir Hisar</option>
+                </select>
+                <button type="submit">Filter</button>
+                <button type="submit" class="Reset" action="/reset-filters" method="post">Reset</button>
+            </form>
+        </section>
+
+        <section class="products">
+            <div class="product-grid">
+                {% for product in products %}
+                <div class="product">
+                    <div class="product-details">
+                        <img src="{{ product.image_url or '/static/images/placeholder.png' }}" alt="{{ product.name }}">
+                        <div class="product-info">
+                            <h3><a href="/product/{{ product.id }}" target="_blank">{{ product.name }}</a></h3>
+                            <p class="price">${{ product.price }}</p>
+                            <div class="city-timestamp">
+                                <span>{{ product.location }}</span> 
+                                <span class="timestamp">{{ product.timestamp }}</span> 
+                            </div>
+                            <form action="/cart/add/{{ product.id }}" method="post">
+                                <button type="submit" class="add-to-cart">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 E-Store. All rights reserved.</p>
+    </footer>
+</body>
+</html>
