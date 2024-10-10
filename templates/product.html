@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - E-Store</title>
+    <link rel="stylesheet" href="/static/product_page.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/">E-Store</a></h1> 
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Home</a></li>
+                <li><a href="/cart">Cart</a></li>
+                <li><a href="/info">Profile</a></li>
+                <li><a href="/add_item">Add Item</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="product-container">
+        <div class="product-image">
+            <img src="{{ url_for('static', path=product.image_url | replace('static/', '')) }}" alt="Product Image">
+        </div>
+        <div class="product-details">
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.description | replace('\n', '<br>') | safe }}</p>
+            <p class="price"><strong>Price:</strong> ${{ product.price }}</p>
+            <p class="quantity"><strong>Quantity Available:</strong> {{ product.quantity }}</p> 
+            <div class="seller-info">
+                <h3>Seller Information:</h3>
+                <span><strong>Name:</strong> {{ product.seller_name }}</span>
+                <span><strong>Email:</strong> {{ product.seller_email }}</span>
+                <span><strong>Phone:</strong> {{ product.seller_phone }}</span>
+                <span><strong>Location:</strong> {{ product.location }}</span>
+            </div>
+            <form action="/cart/add/{{ product.id }}" method="post">
+                <button type="submit" class="add-to-cart">Add to Cart</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 E-Store. All rights reserved.</p>
+    </footer>
+</body>
+</html>
